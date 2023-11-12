@@ -8,7 +8,7 @@
   </a>
 </p>
 <h1 align="center">
-  Medusa Feauture Displays
+  Medusa Feature Displays
 </h1>
 
 <p align="center">A plugin for creating Rich Feature Sections in your Storefront.</p>
