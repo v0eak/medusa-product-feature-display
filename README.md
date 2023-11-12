@@ -13,7 +13,7 @@
 
 <p align="center">A plugin for creating Rich Feature Sections in your Storefront.</p>
 
-![App Video](https://github.com/v0eak/medusa-product-feature-display/assets/51446230/cb366ae3-f999-41c0-85dc-de5d20abb206)
+https://github.com/v0eak/medusa-product-feature-display/assets/51446230/cb366ae3-f999-41c0-85dc-de5d20abb206
 
 ## Compatibility
 This plugin is compatible with versions >1.17.4 of `@medusajs/medusa`
