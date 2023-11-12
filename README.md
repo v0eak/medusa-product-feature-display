@@ -13,7 +13,7 @@
 
 <p align="center">A plugin for creating Rich Feature Sections in your Storefront.</p>
 
-https://github.com/v0eak/medusa-product-feature-display/assets/51446230/cb366ae3-f999-41c0-85dc-de5d20abb206
+![App Video](https://github.com/v0eak/medusa-product-feature-display/assets/51446230/cb366ae3-f999-41c0-85dc-de5d20abb206)
 
 ## Compatibility
 This plugin is compatible with versions >1.17.4 of `@medusajs/medusa`
@@ -52,3 +52,6 @@ It is possible that I will implement functionality for reordering images in the 
 
 ## Examples
 The File demonstrated in the video, is available under `/examples` directory.
+
+## Screenshots
+![App Screenshot](https://github.com/v0eak/medusa-product-feature-display/assets/51446230/bcf127c0-068d-4bad-a977-3af8f9e58d92)
