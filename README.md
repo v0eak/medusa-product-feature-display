@@ -33,8 +33,9 @@ Installation
 
 Set environment variable
 ```bash
-  BACKEND_URL=<YOUR_BACKEND_URL>
+  MEDUSA_ADMIN_BACKEND_URL=<YOUR_BACKEND_URL>
 ```
+where <YOUR_BACKEND_URL> is your Backend's URL (e.g. http://localhost:9000)
 
 Add to medusa-config.js
 ```bash
