@@ -22,7 +22,6 @@ export class FeatureDisplay1699382299706 implements MigrationInterface {
             FOREIGN KEY ("image_id") REFERENCES "image" ("id") ON DELETE CASCADE
         )`)
 
-
         await queryRunner.query(
             "ALTER TABLE \"product\"" + 
             " ADD COLUMN \"feature_displays\" text"
@@ -32,7 +31,6 @@ export class FeatureDisplay1699382299706 implements MigrationInterface {
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query("DROP TABLE \"feature_display\" CASCADE")
         await queryRunner.query("DROP TABLE \"feature_display_images\" CASCADE")
-
 
         await queryRunner.query(
             "ALTER TABLE \"product\" DROP COLUMN \"feature_displays\""

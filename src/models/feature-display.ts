@@ -6,7 +6,7 @@ import { generateEntityId } from "@medusajs/medusa/dist/utils"
 @Entity()
 export class FeatureDisplay extends BaseEntity {
     @Column()
-        id: string | null
+        id: string
 
     @Column()
         title: string | null
