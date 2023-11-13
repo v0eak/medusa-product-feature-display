@@ -7,7 +7,7 @@ export default async function () {
         '@medusajs/medusa/dist/api/routes/admin/products/index'
     )) as any;
 
-    // Extend feature_displays relation and fields
+    // Extend feature_displays relation
         // store
     storeProductImports.allowedStoreProductsRelations = [
         ...storeProductImports.allowedStoreProductsRelations,

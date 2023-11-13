@@ -1,6 +1,6 @@
 {
   "name": "medusa-product-feature-display",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Create Rich Product Feature Sections.",
   "author": "v0eak",
   "license": "MIT",
@@ -11,7 +11,7 @@
   "keywords": [
     "medusa-plugin",
     "medusa-plugin-admin",
-    "medusa-plugin-feature-display",
+    "medusa-product-feature-display",
     "product",
     "feature",
     "section",
