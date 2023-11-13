@@ -47,6 +47,11 @@ Run Database Migrations
   npx medusa migrations run
 ```
 
+Start the server
+```bash
+  medusa develop
+```
+
 ## Roadmap
 It is possible that I will implement functionality for reordering images in the future.
 

@@ -7,10 +7,10 @@ export class FeatureDisplay1699382299706 implements MigrationInterface {
             "title" text,
             "description" text,
             "product_id" text,
-            "order" INTEGER NOT NULL DEFAULT 0,
-            "metadata" jsonb,
             "created_at" TIMESTAMP NOT NULL DEFAULT now(),
             "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
+            "order" INTEGER NOT NULL DEFAULT 0,
+            "metadata" jsonb,
             FOREIGN KEY ("product_id") REFERENCES "product" ("id")
         )`)
         

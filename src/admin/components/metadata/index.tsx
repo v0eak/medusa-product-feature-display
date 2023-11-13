@@ -49,36 +49,36 @@ export default function Metadata ({fd, notify, metadata, setMetadata}) {
 
     return (
         <div className="rounded-rounded border-grey-20 divide-grey-20 inter-base-regular divide-y border relative z-5">
-            <div className="inter-small-semibold bg-grey-5 rounded-t-rounded divide-grey-20 grid grid-cols-[165px_1fr] px-base py-xsmall divide-x divide-solid">
-                <div>
+            <div className="inter-small-semibold bg-grey-5 rounded-t-rounded divide-grey-20 grid grid-cols-[165px_1fr] divide-x divide-solid">
+                <div className="px-base py-xsmall">
                     <p>Key</p>
                 </div>
-                <div>
+                <div className="px-base py-xsmall">
                     <p>Value</p>
                 </div>
             </div>
 
             {metadata !== null ? metadata.map(({ key, value }, index) => (
-                <div key={index} className="divide-grey-20 grid grid-cols-[165px_1fr_auto] px-base py-xsmall divide-x divide-solid last-of-type:rounded-b-rounded group">
-                    <div>
+                <div key={index} className="divide-grey-20 grid grid-cols-[165px_1fr_auto] divide-x divide-solid last-of-type:rounded-b-rounded group">
+                    <div className="px-base py-xsmall">
                         <input ref={keyInputRef} name={`metadata.${index}.key`} placeholder="Key" value={metadata[index].key} onChange={(e) => handleInputChange(e, index, 'key')} className="placeholder:text-grey-40 placeholder:inter-base-regular w-full appearance-none outline-none" />
                     </div>
-                    <div>
+                    <div className="px-base py-xsmall">
                         <input ref={valueInputRef} name={`metadata.${index}.value`} placeholder="Value" value={metadata[index].value} onChange={(e) => handleInputChange(e, index, 'value')} className="placeholder:text-grey-40 placeholder:inter-base-regular w-full appearance-none outline-none" />
                     </div>
-                    <div className={`flex justify-end items-center group-hover:visible ${openDropdownIndex === index ? 'visible' : 'invisible'}`}>
+                    <div className={`px-base py-xsmall flex justify-end items-center group-hover:visible ${openDropdownIndex === index ? 'visible' : 'invisible'}`}>
                         <Dropdown metadata={metadata} setMetadata={setMetadata} index={index} notify={notify} setOpenDropdownIndex={setOpenDropdownIndex} />
                     </div>
                 </div>
             )) : (
-                <div className="divide-grey-20 grid grid-cols-[165px_1fr_auto] px-base py-xsmall divide-x divide-solid last-of-type:rounded-b-rounded group">
-                    <div>
+                <div className="divide-grey-20 grid grid-cols-[165px_1fr_auto] divide-x divide-solid last-of-type:rounded-b-rounded group">
+                    <div className="px-base py-xsmall">
                         <input name="metadata.0.key" placeholder="Key" onChange={(e) => handleInitialInputChange(e)} onFocus={() => setFocusedInput('keyInput')} className="placeholder:text-grey-40 placeholder:inter-base-regular w-full appearance-none outline-none" />
                     </div>
-                    <div>
+                    <div className="px-base py-xsmall">
                         <input name="metadata.0.value" placeholder="Value" onChange={(e) => handleInitialInputChange(e)} onFocus={() => setFocusedInput('valueInput')} className="placeholder:text-grey-40 placeholder:inter-base-regular w-full appearance-none outline-none" />
                     </div>
-                    <div className={`flex justify-end items-center group-hover:visible ${openDropdownIndex === 0 ? 'visible' : 'invisible'}`}>
+                    <div className={`px-base py-xsmall flex justify-end items-center group-hover:visible ${openDropdownIndex === 0 ? 'visible' : 'invisible'}`}>
                         <Dropdown metadata={metadata} setMetadata={setMetadata} index={0} notify={notify} setOpenDropdownIndex={setOpenDropdownIndex} />
                     </div>
                 </div>
