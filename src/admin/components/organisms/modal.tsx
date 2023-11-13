@@ -72,7 +72,7 @@ export default function Modal ({featureDisplays, product, entityToEdit, state, c
 
         try {
             if (!entityToEdit) {
-                if (featureDisplays.length !== 0 ) {
+                if (featureDisplays?.length !== 0 ) {
                     await createFeatureDisplay(product, titleRef.current.value, descriptionRef.current.value, imageIds, metadataObj, featureDisplays)
                 } else {
                     await createFeatureDisplay(product, titleRef.current.value, descriptionRef.current.value, imageIds, metadataObj)

@@ -1,7 +1,5 @@
-const BASE_URL = process.env.BACKEND_URL;
-
 export const reorderFeatureDisplays = async (fds) => {
-    const response = await fetch(`${BASE_URL}/feature-display/re-order`, {
+    const response = await fetch(`http://localhost:9000/feature-display/re-order`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -20,7 +18,7 @@ export const reorderFeatureDisplays = async (fds) => {
 }
 
 export const reorderImages = async (fdID, images) => {
-    const response = await fetch(`${BASE_URL}/feature-display/re-order/${fdID}`, {
+    const response = await fetch(`http://localhost:9000/feature-display/re-order/${fdID}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -41,7 +39,7 @@ export const reorderImages = async (fdID, images) => {
 }
 
 export const createImage = async (imageURL) => {
-    const response = await fetch(`${BASE_URL}/images`, {
+    const response = await fetch(`http://localhost:9000/images`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -68,7 +66,7 @@ export const createFeatureDisplay = async (product, title, description, images, 
         highestOrder++
     }
 
-    const response = await fetch(`${BASE_URL}/feature-display`, {
+    const response = await fetch(`http://localhost:9000/feature-display`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -94,7 +92,7 @@ export const createFeatureDisplay = async (product, title, description, images, 
 }
 
 export const deleteFeatureDisplay = async (fd) => {
-    const response = await fetch(`${BASE_URL}/feature-display/${fd.id}`, {
+    const response = await fetch(`http://localhost:9000/feature-display/${fd.id}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
@@ -103,7 +101,7 @@ export const deleteFeatureDisplay = async (fd) => {
 
     if (!response.ok) {
         // Handle non-successful responses (e.g., 404, 500, etc.)
-        throw new Error('Failed to delete Feature Display')
+        throw new Error('Failed to fetch')
     }
 
     const { feature_display } = await response.json();
@@ -112,7 +110,7 @@ export const deleteFeatureDisplay = async (fd) => {
 }
 
 export const retrieveFeatureDisplays = async (productID) => {
-    const response = await fetch(`${BASE_URL}/admin/products/${productID}?expand=feature_displays`, {
+    const response = await fetch(`http://localhost:9000/admin/products/${productID}?expand=feature_displays`, {
         method: "GET",
         credentials: "include",
         headers: {
@@ -122,7 +120,7 @@ export const retrieveFeatureDisplays = async (productID) => {
 
     if (!response.ok) {
         // Handle non-successful responses (e.g., 404, 500, etc.)
-        throw new Error('Failed to retrieve Feature Displays')
+        throw new Error('Failed to fetch')
     }
 
     const { product } = await response.json();
@@ -131,7 +129,7 @@ export const retrieveFeatureDisplays = async (productID) => {
 }
 
 export const updateFeatureDisplay = async (fd, title, description, images, metadata) => {
-    const response = await fetch(`${BASE_URL}/feature-display/${fd.id}`, {
+    const response = await fetch(`http://localhost:9000/feature-display/${fd.id}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -146,7 +144,7 @@ export const updateFeatureDisplay = async (fd, title, description, images, metad
 
     if (!response.ok) {
         // Handle non-successful responses (e.g., 404, 500, etc.)
-        throw new Error('Failed to update Feature Display')
+        throw new Error('Failed to fetch')
     }
 
     const { feature_display } = await response.json();
