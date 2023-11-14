@@ -6,7 +6,7 @@ export class FeatureDisplay1699382299706 implements MigrationInterface {
             "id" character varying NOT NULL PRIMARY KEY,
             "title" text,
             "description" text,
-            "product_id" text,
+            "product_id" text NOT NULL,
             "created_at" TIMESTAMP NOT NULL DEFAULT now(),
             "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
             "order" INTEGER NOT NULL DEFAULT 0,

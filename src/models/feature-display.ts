@@ -8,10 +8,10 @@ export class FeatureDisplay extends BaseEntity {
     @Column()
         id: string
 
-    @Column()
+    @Column({ nullable: true })
         title: string | null
 
-    @Column()
+    @Column({ nullable: true })
         description: string | null
 
     @ManyToMany(() => MedusaImage, { cascade: ['insert'] })
@@ -25,7 +25,7 @@ export class FeatureDisplay extends BaseEntity {
     @Column()
         order: number
 
-    @Column({ type: 'jsonb' })
+    @Column({ type: 'jsonb', nullable: true })
         metadata: any | null
 
     @ManyToOne(() => MedusaProduct, (product) => product.feature_displays)

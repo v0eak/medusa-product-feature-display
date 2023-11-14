@@ -105,10 +105,8 @@ export const deleteFeatureDisplay = async (fd) => {
         // Handle non-successful responses (e.g., 404, 500, etc.)
         throw new Error('Failed to fetch')
     }
-
-    const { feature_display } = await response.json();
-
-    return feature_display
+    
+    return
 }
 
 export const retrieveFeatureDisplays = async (productID) => {
