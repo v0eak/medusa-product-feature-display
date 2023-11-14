@@ -3,10 +3,10 @@ import type {
     ProductDetailsWidgetProps,
 } from "@medusajs/admin"
 import React, { useEffect, useRef, useState } from 'react';
-import { Container, Heading, Button, usePrompt, useToggleState } from '@medusajs/ui'
+import { Container, Heading, Button, useToggleState } from '@medusajs/ui'
 import { DotsSix } from "@medusajs/icons"
 import { FeatureDisplay } from "../../models/feature-display";
-import { retrieveFeatureDisplays, deleteFeatureDisplay, reorderFeatureDisplays } from "../lib/data"
+import { retrieveFeatureDisplays, reorderFeatureDisplays } from "../lib/data"
 import FDButton from "../components/organisms/fd-button";
 import Modal from "../components/organisms/modal";
   
@@ -14,7 +14,6 @@ const ProductWidget = ({ product, notify }: ProductDetailsWidgetProps) => {
     const [featureDisplays, setFeatureDisplays] = useState(null);
     const dragItem = useRef(null);
     const dragOverItem = useRef(null);
-    const dialog = usePrompt()
     const [state, openEdit, closeEdit, toggle] = useToggleState()
     const [entityToEdit, setEntityToEdit] = useState<FeatureDisplay>(null)
 
@@ -41,23 +40,6 @@ const ProductWidget = ({ product, notify }: ProductDetailsWidgetProps) => {
     const getFeatureDisplays = async () => {
         const data = await retrieveFeatureDisplays(product.id)
         setFeatureDisplays(data)
-    }
-
-    const deleteConfirmation = async (fd) => {
-        const confirmed = await dialog({
-            title: `Delete Feature Display ${fd.title}`,
-            description: "Are you sure? This cannot be undone."
-        })
-
-        if (confirmed) {
-            try {
-                await deleteFeatureDisplay(fd)
-                notify.success("Success", `Deleted Feature Display ${fd.title}`)
-            } catch (error) {
-                notify.error("Error", `Failed to delete Feature Display ${error}`)
-            }
-            getFeatureDisplays()
-        }
     }
 
     const editFeatureDisplay = async (fd?) => {
@@ -149,7 +131,7 @@ const ProductWidget = ({ product, notify }: ProductDetailsWidgetProps) => {
                             </div>
                         </div>
                         <div className="px-3">
-                            <FDButton editFeatureDisplay={editFeatureDisplay} deleteConfirmation={deleteConfirmation} fd={fd} />
+                            <FDButton editFeatureDisplay={editFeatureDisplay} getFeatureDisplays={getFeatureDisplays} fd={fd} notify={notify} />
                         </div>
                     </div>
                 ))}

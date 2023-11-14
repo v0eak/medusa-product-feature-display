@@ -1,7 +1,28 @@
-import { DropdownMenu, IconButton } from "@medusajs/ui"
-import { EllipsisHorizontal, PencilSquare, Trash, DotsSix } from "@medusajs/icons"
+import { DropdownMenu, IconButton, usePrompt } from "@medusajs/ui"
+import { EllipsisHorizontal, PencilSquare, Trash } from "@medusajs/icons"
 
-export default function FDButton ({editFeatureDisplay, deleteConfirmation, fd}) {
+import { deleteFeatureDisplay } from "../../lib/data"
+
+export default function FDButton ({editFeatureDisplay, getFeatureDisplays, fd, notify}) {
+    const dialog = usePrompt()
+
+    const deleteConfirmation = async (fd) => {
+        const confirmed = await dialog({
+            title: `Delete Feature Display ${fd.title}`,
+            description: "Are you sure? This cannot be undone."
+        })
+
+        if (confirmed) {
+            try {
+                await deleteFeatureDisplay(fd)
+                notify.success("Success", `Deleted Feature Display ${fd.title}`)
+            } catch (error) {
+                notify.error("Error", `Failed to delete Feature Display ${error}`)
+            }
+            getFeatureDisplays()
+        }
+    }
+
     return (
         <DropdownMenu>
             <DropdownMenu.Trigger asChild>
