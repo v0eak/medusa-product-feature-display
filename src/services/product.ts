@@ -16,7 +16,6 @@ class ProductService extends MedusaProductService {
     async retrieve(productId: string, config: FindProductConfig = {}) {
         // Call the original retrieve method
         const product = await super.retrieve(productId, config);
-        console.log("asd")
 
         // Add custom logic for feature_displays
         if (product.feature_displays && product.feature_displays.length > 0) {
