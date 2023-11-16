@@ -3,10 +3,11 @@ import type {
     ProductDetailsWidgetProps,
 } from "@medusajs/admin"
 import React, { useEffect, useRef, useState } from 'react';
+import { useAdminProducts } from "medusa-react"
 import { Container, Heading, Button, useToggleState } from '@medusajs/ui'
 import { DotsSix } from "@medusajs/icons"
 import { FeatureDisplay } from "../../models/feature-display";
-import { retrieveFeatureDisplays, reorderFeatureDisplays } from "../lib/data"
+import { initializeNotify, useReorderFeatureDisplays } from "../lib/data"
 import FDButton from "../components/organisms/fd-button";
 import Modal from "../components/organisms/modal";
   
@@ -16,6 +17,13 @@ const ProductWidget = ({ product, notify }: ProductDetailsWidgetProps) => {
     const dragOverItem = useRef(null);
     const [state, openEdit, closeEdit, toggle] = useToggleState()
     const [entityToEdit, setEntityToEdit] = useState<FeatureDisplay>(null)
+
+    const { products, status, refetch } = useAdminProducts({
+        id: product.id,
+        expand: "feature_displays",
+    })
+
+    const reorderFeatureDisplays = useReorderFeatureDisplays()
 
     const handleDragStart = (index) => {
         dragItem.current = index;
@@ -36,12 +44,6 @@ const ProductWidget = ({ product, notify }: ProductDetailsWidgetProps) => {
         setFeatureDisplays(copyListItems);
     };
 
-
-    const getFeatureDisplays = async () => {
-        const data = await retrieveFeatureDisplays(product.id)
-        setFeatureDisplays(data)
-    }
-
     const editFeatureDisplay = async (fd?) => {
         if (!fd) {
             setEntityToEdit(null)
@@ -51,18 +53,15 @@ const ProductWidget = ({ product, notify }: ProductDetailsWidgetProps) => {
         openEdit()
     }
 
-    const reorderFD = async (fds) => {
-        try {
-            await reorderFeatureDisplays(fds);
-            notify.success("Success", "Successfully reordered Feature Displays!")
-        } catch (error) {
-            notify.warn("Error", `Failed to reorder Feature Displays ${error}`)
+    useEffect(() => {
+        if (products) {
+            setFeatureDisplays(products[0].feature_displays)
         }
-    }
+    }, [products]);
 
     useEffect(() => {
-        getFeatureDisplays()
-    }, []);
+        initializeNotify(notify)
+    }, [])
 
     return (
         <Container>
@@ -101,7 +100,7 @@ const ProductWidget = ({ product, notify }: ProductDetailsWidgetProps) => {
                 `}
             </style>
 
-            <Modal featureDisplays={featureDisplays} product={product} entityToEdit={entityToEdit} state={state} closeEdit={closeEdit} notify={notify} getFeatureDisplays={getFeatureDisplays} />
+            <Modal featureDisplays={featureDisplays} product={product} entityToEdit={entityToEdit} state={state} closeEdit={closeEdit} notify={notify} getFeatureDisplays={refetch} />
 
             <div className="flex flex-col gap-y-4 pb-4">
                 {featureDisplays?.map((fd, index) => (
@@ -121,8 +120,8 @@ const ProductWidget = ({ product, notify }: ProductDetailsWidgetProps) => {
                                 <span className="fade-out-text">{fd.description.length > 160 ? `${fd.description.substring(0, 160)}...` : fd.description}</span>
                                 <div className="flex gap-x-1.5 overflow-scroll">
                                     {fd.images.map((image) => (
-                                        image.url.endsWith('.webm') ? (
-                                            <video autoPlay loop muted typeof="video/mp4" src={image.url} className="h-24" />
+                                        image.url?.endsWith('.webm') ? (
+                                            <video key={image.id} autoPlay loop muted typeof="video/mp4" src={image.url} className="h-24" />
                                         ) : (
                                             <img key={image.id} src={image.url} alt="Image" className="h-24" />
                                         )
@@ -131,14 +130,14 @@ const ProductWidget = ({ product, notify }: ProductDetailsWidgetProps) => {
                             </div>
                         </div>
                         <div className="px-3">
-                            <FDButton editFeatureDisplay={editFeatureDisplay} getFeatureDisplays={getFeatureDisplays} fd={fd} notify={notify} />
+                            <FDButton editFeatureDisplay={editFeatureDisplay} getFeatureDisplays={refetch} fd={fd} notify={notify} />
                         </div>
                     </div>
                 ))}
             </div>
             <div className="flex justify-between">
                 <Button onClick={() => editFeatureDisplay()} type="button" variant="secondary" className="px-2.5 py-1">Create Feature Display</Button>
-                <Button onClick={() => reorderFD(featureDisplays)} type="button" className="px-2.5 py-1">Save changes</Button>
+                <Button onClick={() => reorderFeatureDisplays(featureDisplays)} type="button" className="px-2.5 py-1">Save changes</Button>
             </div>
         </Container>
     )

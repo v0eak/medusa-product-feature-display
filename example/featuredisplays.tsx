@@ -18,7 +18,7 @@ export default function FeatureDisplays ({fd}) {
     return (
         <div className={`w-full flex items-center justify-center py-20`} style={{backgroundColor: fd.metadata?.background ? fd.metadata?.background : ''}}>
             {fd.metadata?.align === 'left' && (
-                fd.images[currentPlay]?.url.endsWith('.webm') ? (
+                fd.images[currentPlay]?.url?.endsWith('.webm') ? (
                     <video autoPlay loop muted typeof="video/mp4" src={fd.images[currentPlay]?.url} className="h-96 w-[683px]" />
                 ) : (
                     <img src={fd.images[currentPlay]?.url} className="h-96" />
@@ -43,7 +43,7 @@ export default function FeatureDisplays ({fd}) {
                 )}
             </div>
             {fd.metadata?.align === 'right' || !fd.metadata?.align && (
-                fd.images[currentPlay]?.url.endsWith('.webm') ? (
+                fd.images[currentPlay]?.url?.endsWith('.webm') ? (
                     <video autoPlay loop muted typeof="video/mp4" src={fd.images[currentPlay]?.url} className="h-96 w-[683px]" />
                 ) : (
                     <img src={fd.images[currentPlay]?.url} className="h-96" />

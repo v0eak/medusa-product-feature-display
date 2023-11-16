@@ -155,7 +155,7 @@ const Image = ({ image, index, form, remove }: ImageProps) => {
               <div className="flex flex-col items-center justify-center gap-y-1">
                 <div className="flex h-36 w-auto items-center justify-center">
                   {
-                    image.url.endsWith('.webm') ? (
+                    image.url?.endsWith('.webm') ? (
                         <video autoPlay loop muted typeof="video/mp4" src={image.url} className="rounded-rounded max-h-36" />
                     ) : (
                         <img key={image.id} src={image.url} alt={image.name || "Uploaded image"} className="rounded-rounded max-h-36" />

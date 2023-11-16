@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { useForm } from "react-hook-form"
-import { useMedusa } from "medusa-react"
+import { useMedusa, useAdminCustomPost } from "medusa-react"
 import { FocusModal, Button, Heading } from "@medusajs/ui"
 
-import { createFeatureDisplay, updateFeatureDisplay } from '../../lib/data'
+import { useCreateFeatureDisplay, useCreateImage } from '../../lib/data'
 import MediaForm, { MediaFormType, ImageType } from '../forms/product/media-form'
 
 import { nestedForm } from '../../lib/utils/nested-form'
@@ -24,6 +24,37 @@ export default function Modal ({featureDisplays, product, entityToEdit, state, c
     const form = useForm<MediaFormWrapper>({
         defaultValues: {}
     })
+
+    const createFeatureDisplay = useCreateFeatureDisplay()
+    const createImage = useCreateImage()
+    const { mutate: mutateUpdateFeatureDisplay } = useAdminCustomPost(
+        `/feature-display/${entityToEdit?.id}`,
+        ["feature_display"]
+    )
+
+    const updateFeatureDisplay = async (title, description, images, metadata) => {
+        // ${BACKEND_URL}/feature-display/${fd.id}
+        return mutateUpdateFeatureDisplay(
+            {
+                title,
+                description,
+                images,
+                metadata
+            },
+            {
+                onSuccess: (data: any) => {
+                    // Handle successful responses
+                    notify.success("Success", "Successfully updated Feature Display!")
+                    return data.feature_display
+                },
+                onError: (error) => {
+                    // Handle non-successful responses (e.g., 404, 500, etc.)
+                    notify.error("Error", `Failed to update Feature Display ${error}`)
+                    throw new Error('Failed to update Feature Display.')
+                },
+            }
+        )
+    }
 
     const {
         formState: { isDirty },
@@ -54,6 +85,7 @@ export default function Modal ({featureDisplays, product, entityToEdit, state, c
 
         try {
             preppedImages = await prepareImages(
+                createImage,
                 data.media.images,
                 client.admin.uploads
             );
@@ -68,22 +100,17 @@ export default function Modal ({featureDisplays, product, entityToEdit, state, c
             notify.error('Error', errorMessage);
             return;
         }
+        console.log(preppedImages)
         const imageIds = preppedImages.map((image) => image.id);
 
-        try {
-            if (!entityToEdit) {
-                if (featureDisplays?.length !== 0 ) {
-                    await createFeatureDisplay(product, titleRef.current.value, descriptionRef.current.value, imageIds, metadataObj, featureDisplays)
-                } else {
-                    await createFeatureDisplay(product, titleRef.current.value, descriptionRef.current.value, imageIds, metadataObj)
-                }
-                notify.success("Success", "Successfully created Feature Display!")
+        if (!entityToEdit) {
+            if (featureDisplays?.length !== 0 ) {
+                await createFeatureDisplay(product, titleRef.current.value, descriptionRef.current.value, imageIds, metadataObj, featureDisplays)
             } else {
-                await updateFeatureDisplay(entityToEdit, titleRef.current.value, descriptionRef.current.value, imageIds, metadataObj)
-                notify.success("Success", "Successfully updated Feature Display!")
+                await createFeatureDisplay(product, titleRef.current.value, descriptionRef.current.value, imageIds, metadataObj)
             }
-        } catch (error) {
-            notify.error("Error", `Failed to create / update Feature Display ${error}`)
+        } else {
+            await updateFeatureDisplay(titleRef.current.value, descriptionRef.current.value, imageIds, metadataObj)
         }
 
         await getFeatureDisplays()

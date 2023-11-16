@@ -1,5 +1,4 @@
 import { FormImage } from "../../types/shared";
-import { createImage } from "../data";
 
 const splitImages = (
   images: FormImage[]
@@ -18,20 +17,30 @@ const splitImages = (
   return { uploadImages, existingImages };
 };
 
-const createImages = async (images) => {
-  return await Promise.all(
-    images.map(item => createImage(item.url))
-  )
-}
+const createImages = async (createImage, images) => {
+  const createdImages = [];
 
-export const prepareImages = async (images: FormImage[], uploads: any) => {
+  for (const item of images) {
+    try {
+      const createdImage = await createImage(item.url);
+      createdImages.push(createdImage);
+    } catch (error) {
+      console.error("Error creating image:", error);
+      // Optionally, handle the error, e.g., by continuing with the next image
+    }
+  }
+
+  return createdImages;
+};
+
+export const prepareImages = async (createImage, images: FormImage[], uploads: any) => {
   const { uploadImages, existingImages } = splitImages(images);
 
   let uploadedImgs: FormImage[] = [];
   if (uploadImages.length > 0) {
     const files = uploadImages.map((i) => i.nativeFile);
     const { uploads: uploaded } = await uploads.create(files);
-    const createdImages = await createImages(uploaded)
+    const createdImages = await createImages(createImage, uploaded)
     uploadedImgs = createdImages;
   }
 

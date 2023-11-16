@@ -1,10 +1,32 @@
+import { useAdminCustomDelete } from "medusa-react"
 import { DropdownMenu, IconButton, usePrompt } from "@medusajs/ui"
 import { EllipsisHorizontal, PencilSquare, Trash } from "@medusajs/icons"
 
-import { deleteFeatureDisplay } from "../../lib/data"
-
 export default function FDButton ({editFeatureDisplay, getFeatureDisplays, fd, notify}) {
     const dialog = usePrompt()
+    const { mutate: mutateDeleteFeatureDisplay } = useAdminCustomDelete(
+        `/feature-display/${fd.id}`,
+        ["feature_display"]
+    )
+
+    const deleteFeatureDisplay = async () => {
+        // ${BACKEND_URL}/feature-display/${fd.id}
+        return mutateDeleteFeatureDisplay(
+            undefined,
+            {
+                onSuccess: (data: any) => {
+                    // Handle successful responses
+                    notify.success("Success", "Successfully deleted Feature Display!")
+                    return data.feature_display
+                },
+                onError: (error) => {
+                    // Handle non-successful responses (e.g., 404, 500, etc.)
+                    notify.error("Error", `Failed to delete Feature Display ${error}`)
+                    throw new Error('Failed to delete Feature Display.')
+                },
+            }
+        )
+    }
 
     const deleteConfirmation = async (fd) => {
         const confirmed = await dialog({
@@ -13,12 +35,7 @@ export default function FDButton ({editFeatureDisplay, getFeatureDisplays, fd, n
         })
 
         if (confirmed) {
-            try {
-                await deleteFeatureDisplay(fd)
-                notify.success("Success", `Deleted Feature Display ${fd.title}`)
-            } catch (error) {
-                notify.error("Error", `Failed to delete Feature Display ${error}`)
-            }
+            await deleteFeatureDisplay()
             getFeatureDisplays()
         }
     }
