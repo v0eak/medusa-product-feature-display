@@ -26,7 +26,7 @@ export class FeatureDisplay extends BaseEntity {
         order: number
 
     @Column({ type: 'jsonb', nullable: true })
-        metadata: any | null
+        metadata: object | null
 
     @ManyToOne(() => MedusaProduct, (product) => product.feature_displays)
         @JoinColumn({ name: "product_id" })
