@@ -12,15 +12,14 @@ import FDButton from "../components/organisms/fd-button";
 import Modal from "../components/organisms/modal";
   
 const ProductWidget = ({ product, notify }: ProductDetailsWidgetProps) => {
-    const [featureDisplays, setFeatureDisplays] = useState(null);
+    const [featureDisplays, setFeatureDisplays] = useState(product.feature_displays);
     const dragItem = useRef(null);
     const dragOverItem = useRef(null);
     const [state, openEdit, closeEdit, toggle] = useToggleState()
     const [entityToEdit, setEntityToEdit] = useState<FeatureDisplay>(null)
 
-    const { products, status, refetch } = useAdminProducts({
+    const { refetch } = useAdminProducts({
         id: product.id,
-        expand: "feature_displays",
     })
 
     const reorderFeatureDisplays = useReorderFeatureDisplays()
@@ -54,14 +53,12 @@ const ProductWidget = ({ product, notify }: ProductDetailsWidgetProps) => {
     }
 
     useEffect(() => {
-        if (products) {
-            setFeatureDisplays(products[0].feature_displays)
-        }
-    }, [products]);
-
-    useEffect(() => {
         initializeNotify(notify)
     }, [])
+
+    useEffect(() => {
+        setFeatureDisplays(product.feature_displays)
+    }, [product])
 
     return (
         <Container>
