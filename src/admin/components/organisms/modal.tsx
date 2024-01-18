@@ -63,10 +63,13 @@ export default function Modal ({featureDisplays, product, entityToEdit, state, c
     } = form
 
     const onReset = async () => {
-        await getFeatureDisplays()
         closeEdit()
-        reset(entityToEdit ? getDefaultValues(entityToEdit) : {})
+        reset(getDefaultValues(entityToEdit))
     }
+
+    useEffect(() => {
+        reset(getDefaultValues(entityToEdit))
+    }, [entityToEdit, form]);
 
     const commitdata = handleSubmit(async (data: any) => {
         let preppedImages: FormImage[] = [];
@@ -116,6 +119,7 @@ export default function Modal ({featureDisplays, product, entityToEdit, state, c
             await updateFeatureDisplay(titleRef.current.value, descriptionRef.current.value, imageIds, metadataObj)
         }
 
+        await getFeatureDisplays()
         onReset()
     })
 
